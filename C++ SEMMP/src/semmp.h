@@ -16,6 +16,7 @@
 
 
 #include "block.h"
+#include "out.h"
 #include "well.h"
 #include "boundary.h"
 #include "parameters.h"
