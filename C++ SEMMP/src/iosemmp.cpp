@@ -26,10 +26,11 @@ double getTableVal(double **table, int colx, double x, int colfx, double delta,
 template <class T>
 T** readTableFile(char filein[], int nrow, int ncol)
 {
+	Memory memory;
 	float tmp;
 	int col, row;
 	FILE *mf;
-	T **table = rMatrix(nrow, ncol);
+	T **table = memory.rMatrix(nrow, ncol);
 		
 	if ( (mf = fopen(filein, "r")) == NULL ){
 		eprintf("opening table file %s:", filein);
@@ -776,7 +777,8 @@ Block *readAndSetGeometry(Parameters *par, int **geom)
 	double **dytmp, **kxtmp, **kytmp, **thicknesstmp, **zToptmp, **dxtmp;
 	char dirFileName[LENGTHFN];
 	Block *grid;
-	FILE *mf;	
+	FILE *mf;
+	Memory memory;
 	
 	setprogname("set geometry");
 	
@@ -919,13 +921,13 @@ Block *readAndSetGeometry(Parameters *par, int **geom)
 	}
 	
 
-	if(isKxFile)	freerMatrix(kxtmp, nrow, ncol);
-	if(isKyFile)	freerMatrix(kytmp, nrow, ncol);
-	if(isDzFile)	freerMatrix(thicknesstmp, nrow, ncol);
-	if(isDxFile)	freerMatrix(dxtmp, 1, ncol);
-	if(isDyFile)	freerMatrix(dytmp, nrow, 1);
-	if(isPhiFile)	freerMatrix(porositytmp, nrow, ncol);
-	if(isZtopFile)	freerMatrix(zToptmp, nrow, ncol);
+	if(isKxFile)	memory.freerMatrix(kxtmp, nrow, ncol);
+	if(isKyFile)	memory.freerMatrix(kytmp, nrow, ncol);
+	if(isDzFile)	memory.freerMatrix(thicknesstmp, nrow, ncol);
+	if(isDxFile)	memory.freerMatrix(dxtmp, 1, ncol);
+	if(isDyFile)	memory.freerMatrix(dytmp, nrow, 1);
+	if(isPhiFile)	memory.freerMatrix(porositytmp, nrow, ncol);
+	if(isZtopFile)	memory.freerMatrix(zToptmp, nrow, ncol);
 	
 	unsetprogname();
 		

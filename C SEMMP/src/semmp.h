@@ -1,6 +1,6 @@
 /* indexes for fluid properties tables */
 #define PRESS			0						// IOSEMMP.H
-#define FVF				1 						// IOSEMMP.H
+#define FVF			1 						// IOSEMMP.H
 #define INV_FVF			1						// IOSEMMP.H
 #define VISC			2 						// IOSEMMP.H
 #define INV_FVFVISC		2 						// IOSEMMP.H
