@@ -181,6 +181,7 @@ void setTransmissibilityMatrix(Parameters *par, Block *grid, Well *wells,
 void setCylindricalTransmissibilities(Parameters *par, Block *grid, Boundary 
 								 *boundary, Well *wells)
 {
+	Memory memory;
 	int i, j, n, bcIndex;
 	int bool_E, bool_W;
 	double dri, ri, rim, rip, rimh, riph, kri, krip, krim;
@@ -201,15 +202,15 @@ void setCylindricalTransmissibilities(Parameters *par, Block *grid, Boundary
 
 	/* half-block radius *///0.0.3
 	if (!atof(par->dxFile)){
-		drtmp = rMatrix(1, par->ncol);
+		drtmp = memory.rMatrix(1, par->ncol);
 		sprintf(drFileName, "%s%s", par->projectDir, par->dxFile);
 		//readTableFile(drFileName, drtmp, 1, par->ncol);
 	}
 	else printf("Error!");
 
 	n = par->ncol-1; //Depende se tem uma coluna de zeros!!! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	r  = rVector(n + 2);	
-	rh = rVector(n + 1); 
+	r  = memory.rVector(n + 2);	
+	rh = memory.rVector(n + 1); 
 	rh[0] = wells[0].rw;
 	for (i=0; i < n; i++){
 		rh[i+1] = rh[i] + drtmp[0][i];

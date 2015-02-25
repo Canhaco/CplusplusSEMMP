@@ -8,7 +8,6 @@
 #include "eprintf.h"
 #include "well.h"
 #include "block.h"
-#include "out.h"
 #include "parameters.h"
 #include "boundary.h"
 #include "memory.h"

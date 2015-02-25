@@ -64,13 +64,14 @@ int main (int argc, char *argv[])
 	Out *display;
 	FILE *reportFile;
 	Boundary *boundary;
+	Memory memory;
 	/*************************************************************************/
 
 	readIniFile(argc, argv, &par);
 	
 	header(stdout, &par); 
 	
-	geom  = iMatrix(par.nrow, par.ncol);
+	geom  = memory.iMatrix(par.nrow, par.ncol);
 
 	wells = readAndSetWellParameters(&par);
 
@@ -86,7 +87,7 @@ int main (int argc, char *argv[])
 
 	display = readAndSetOuts(&par, grid, geom, "display", &cumulativeProd);
 
-	freeiMatrix(geom, par.nrow, par.ncol);
+	memory.freeiMatrix(geom, par.nrow, par.ncol);
 
 	if (par.isCylindrical) //0.0.3
 		setCylindricalTransmissibilities(&par, grid, boundary, wells);
@@ -95,27 +96,27 @@ int main (int argc, char *argv[])
 	
 	fprops = readFluidProperties(&par);
 
-	pressureN   = rVector(par.nBlocks); /* pressure at t */
-	pressure    = rVector(par.nBlocks); /* pressure for iterative solution */
-	pressureNp1 = rVector(par.nBlocks); /* pressure at t + delta_t */
+	pressureN   = memory.rVector(par.nBlocks); /* pressure at t */
+	pressure    = memory.rVector(par.nBlocks); /* pressure for iterative solution */
+	pressureNp1 = memory.rVector(par.nBlocks); /* pressure at t + delta_t */
 
 	setInitialPressure(&par, grid, wells, fprops, pressureN, pressure, 
 		pressureNp1);
 
 	/* arrays for matrix structure, triplet and compressed column forms */
-	Ap  = iVector(par.nBlocks + 1);
-	Ai  = iVector(par.nMatrix);
-	Ax  = rVector(par.nMatrix);
-	b   = rVector(par.nBlocks);
-	Ti  = iVector(par.nMatrix);
-	Tj  = iVector(par.nMatrix);
-	Tx  = rVector(par.nMatrix);
-	Map = iVector(par.nMatrix);
+	Ap  = memory.iVector(par.nBlocks + 1);
+	Ai  = memory.iVector(par.nMatrix);
+	Ax  = memory.rVector(par.nMatrix);
+	b   = memory.rVector(par.nBlocks);
+	Ti  = memory.iVector(par.nMatrix);
+	Tj  = memory.iVector(par.nMatrix);
+	Tx  = memory.rVector(par.nMatrix);
+	Map = memory.iVector(par.nMatrix);
 	
 	setMatrixStructure(&par, grid, Ti, Tj, Tx, Ap, Ai, Ax, Map);
-	freeiVector(Ti);
-	freeiVector(Tj);
-	freerVector(Tx);
+	memory.freeiVector(Ti);
+	memory.freeiVector(Tj);
+	memory.freerVector(Tx);
 	
 	umfpack_di_defaults(Control);
 	Control[UMFPACK_PRL] = 5.0;
@@ -243,14 +244,14 @@ int main (int argc, char *argv[])
 	umfpack_di_free_symbolic(&Symbolic);
 	free(grid);
 	free(fprops);
-	freerVector(pressureN);
-	freerVector(pressure);
-	freerVector(pressureNp1);
-	freeiVector(Ap);
-	freeiVector(Ai);
-	freerVector(Ax);
-	freerVector(b);
-	freeiVector(Map);
+	memory.freerVector(pressureN);
+	memory.freerVector(pressure);
+	memory.freerVector(pressureNp1);
+	memory.freeiVector(Ap);
+	memory.freeiVector(Ai);
+	memory.freerVector(Ax);
+	memory.freerVector(b);
+	memory.freeiVector(Map);
        
 	return 0;
 }

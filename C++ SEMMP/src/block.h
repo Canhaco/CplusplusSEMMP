@@ -1,9 +1,19 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
-class Block {
 
-public:
+typedef struct {
+	int row;
+	int col;
+	int p;			// bool for display pressure
+	int qw;			// bool for display flow rate
+	int np;			// cumulative oil production	
+	int pwf;		// bool for display bottom hole pressure
+	int localIndex;	// block index in grid
+} Out;
+
+
+typedef struct {
 	/*block indexes*/
 	int H;				//Here
 	int E;				//East
@@ -37,6 +47,6 @@ public:
 	double Gyph;		//Gy_(j+1/2) 
 	double Gymh;		//Gy_(j-1/2)
 	
-};
+} Block;
 
 #endif

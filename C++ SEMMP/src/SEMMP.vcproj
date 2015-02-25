@@ -222,10 +222,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\out.h"
-				>
-			</File>
-			<File
 				RelativePath=".\parameters.h"
 				>
 			</File>

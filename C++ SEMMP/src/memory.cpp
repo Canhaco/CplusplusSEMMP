@@ -1,37 +1,37 @@
 #include "memory.h"
 
-int *iVector(int size)
+int *Memory::iVector(int size)
 {
 	int *v;
    
-	v = (int*)calloc(size, sizeof(int));
+	v =  new int[size];
 	if (!v) eprintf("allocation failure in ivector()");
 	
 	return v;
 }
 /*****************************************************************************/
 
-double *rVector(int size)
+double *Memory::rVector(int size)
 {
 	double *v;
    
-	v = (double*)calloc(size, sizeof(double));
+	v =  new double[size];
 	if (!v) eprintf("allocation failure in rvector()");
 	
 	return v;
 }
 /*****************************************************************************/
 
-double **rMatrix(int rows, int cols)
+double **Memory::rMatrix(int rows, int cols)
 {
 	int i;
 	double **m;
 	
-	m = (double **)calloc(rows, sizeof(double *));
+	m =  new double *[rows];
 	if (!m) eprintf("allocation failure 1 in rmatrix():");
 	
 	for (i = 0; i < rows; i++) {
-		m[i] = (double *)calloc(cols, sizeof(double));
+		m[i] = new double[cols];
 		if (!m[i]) eprintf("allocation failure 2 in rmatrix():");
 	}
 	
@@ -39,16 +39,16 @@ double **rMatrix(int rows, int cols)
 }
 /*****************************************************************************/
 
-int **iMatrix(int rows, int cols)
+int **Memory::iMatrix(int rows, int cols)
 {
 	int i;
 	int **m;
 	
-	m = (int **)calloc(rows, sizeof(int *));
+	m =  new int *[rows];
 	if (!m) eprintf("allocation failure 1 in imatrix():");
 	
 	for (i = 0; i < rows; i++) {
-		m[i] = (int *)calloc(cols, sizeof(int));
+		m[i] = new int[cols];
 		if (!m[i]) eprintf("allocation failure 2 in imatrix():");
 	}
 	
@@ -56,43 +56,49 @@ int **iMatrix(int rows, int cols)
 }
 /*****************************************************************************/
 
-void freeiVector(int *v)
+void Memory::freeiVector(int *v)
 {
-	free(v);
+	delete [] v;
+	v = NULL;
 
 	return;
 }
 /*****************************************************************************/
 
-void freerVector(double *v)
+void Memory::freerVector(double *v)
 {
-	free(v);
-
+	delete [] v;
+	v = NULL;
+	
 	return; 
 }
 /*****************************************************************************/
 
-void freeiMatrix(int **m, int rows, int cols)
+void Memory::freeiMatrix(int **m, int rows, int cols)
 {
 	int i;
 
 	for(i = 0; i < rows; i++){
-		free(m[i]);
+		delete [] m[i];
+		m[i] = NULL;
 	}
-	free(m);
-
+	delete [] m;
+	m = NULL;
+	
 	return;
 }
 /*****************************************************************************/
 
-void freerMatrix(double **m, int rows, int cols)
+void Memory::freerMatrix(double **m, int rows, int cols)
 {
 	int i;
 
 	for(i = 0; i < rows; i++){
-		free(m[i]);
+		delete [] m[i];
+		m[i] = NULL;
 	}
-	free(m);
+	delete [] m;
+	m = NULL;
 
 	return;
 }
