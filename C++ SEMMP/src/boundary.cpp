@@ -1,6 +1,6 @@
 #include "boundary.h" 
 
-void setBoundaryConditions(int *j, int *Map, double *Ax, double *b, 
+void boundary::setBoundaryConditions(int *j, int *Map, double *Ax, double *b, 
 									 double N, double E, double W, double S, 
 									 Boundary* boundary, Block *block)
 {
